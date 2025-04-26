@@ -19,7 +19,7 @@ struct MercadoLibreServices {
     /// Path parameters in curly braces (e.g., `{query}`) must be replaced by actual values via `Service.pathParams`.
     enum Endpoints: String {
         /// Search for active products within a specific site by query term.
-        case getProducts = "products/search?status=active&site_id={siteID}&q={query}"
+        case getProducts = "products/search?status=active&site_id={site_id}&q={query}"
     }
     
     /// Keys for path parameters used in endpoint replacement.
@@ -56,4 +56,6 @@ extension MercadoLibreServices: MercadoLibreServicesProtocol {
         )
     }
 }
+
+
 

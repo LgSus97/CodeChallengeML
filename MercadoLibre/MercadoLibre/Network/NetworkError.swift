@@ -15,4 +15,11 @@ enum NetworkError: Error {
 
     /// The request completed without returning any data.
     case emptyResponse
+    
+    /// The server responded with an unexpected HTTP status code (outside the 200–299 range).
+        ///
+        /// Use this to differentiate between types of server-side issues (e.g. 404, 500, etc.).
+        ///
+        /// - Parameter code: The HTTP status code returned by the server.
+        case invalidStatusCode(Int)
 }

@@ -56,3 +56,72 @@ struct SearchProductsModels: Codable {
         }
     }
 }
+
+
+enum SearchState {
+    case idle          // no se ha escrito nada
+    case suggesting    // está escribiendo
+    case results       // productos encontrados
+    case empty         // no se encontraron resultados
+}
+
+
+/// ViewModel used to represent a product in the search results list.
+///
+/// This model abstracts only the necessary information needed for displaying
+/// the product in a table or collection view.
+public struct ProductListItemViewModel {
+    
+    /// The unique identifier of the product.
+    let id: String
+    
+    /// The product name or title.
+    let name: String
+    
+    /// The URL of the product's main image.
+    let imageUrl: URL?
+    
+    let brand: String?
+    let model: String?
+    let color: String?
+}
+
+extension SearchProductsModels.Response.Product {
+    
+    func toViewModel() -> ProductView? {
+        guard let id = id, let name = name else { return nil }
+        
+        let imageUrl = pictures?.first?.url.flatMap { URL(string: $0) }
+       
+        
+        return .init(
+            data: ProductListItemViewModel(
+                id: id,
+                name: name,
+                imageUrl: imageUrl,
+                brand: brandName(),
+                model: modelName(),
+                color: colorName()
+            )
+        )
+    }
+}
+
+
+extension SearchProductsModels.Response.Product {
+    
+    /// Returns the brand if available.
+    func brandName() -> String? {
+        return attributes?.first(where: { $0.id == "BRAND" })?.valueName
+    }
+    
+    /// Returns the model if available.
+    func modelName() -> String? {
+        return attributes?.first(where: { $0.id == "MODEL" })?.valueName
+    }
+    
+    /// Returns the color if available.
+    func colorName() -> String? {
+        return attributes?.first(where: { $0.id == "COLOR" })?.valueName
+    }
+}
