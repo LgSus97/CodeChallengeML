@@ -9,6 +9,7 @@ import UIKit
 
 final class FavoritesViewController: UIViewController {
 
+    var interactor: FavoritesInteractorProtocol?
     private var favorites: [ProductListItemViewModel] = []
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -65,7 +66,7 @@ final class FavoritesViewController: UIViewController {
     }
 
     private func loadFavorites() {
-        favorites = FavoritesManager.shared.fetchFavorites()
+        favorites = interactor?.getProducts() ?? []
         collectionView.reloadData()
         collectionView.animateVisibleCells()
         checkIfFavoritesEmpty()
@@ -97,8 +98,6 @@ final class FavoritesViewController: UIViewController {
         return previewContainer
     }
 
-
-
     private func handleDeleteFavorite(at indexPath: IndexPath) {
         let favorite = favorites[indexPath.item]
 
@@ -107,13 +106,13 @@ final class FavoritesViewController: UIViewController {
                 cell.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
                 cell.alpha = 0
             }, completion: { _ in
-                FavoritesManager.shared.removeFavorite(id: favorite.id)
+                self.interactor?.removeRemoveProduct(favorite.id)
                 self.favorites.remove(at: indexPath.item)
                 self.collectionView.deleteItems(at: [indexPath])
                 self.checkIfFavoritesEmpty()
             })
         } else {
-            FavoritesManager.shared.removeFavorite(id: favorite.id)
+            self.interactor?.removeRemoveProduct(favorite.id)
             self.favorites.remove(at: indexPath.item)
             self.collectionView.deleteItems(at: [indexPath])
             self.checkIfFavoritesEmpty()
@@ -141,7 +140,7 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // Opcional: Acción cuando seleccionan
+
     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
@@ -164,8 +163,6 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
             }
         )
     }
-
-
 
 }
 

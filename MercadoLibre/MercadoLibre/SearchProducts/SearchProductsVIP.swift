@@ -9,8 +9,8 @@ import UIKit
 protocol SearchProductsViewProtocol: AnyObject {
     func showLoader()
     func hideLoader()
-    func showError()
-    func displayData(products: [ProductListItemViewModel]) 
+    func showError(message: String)
+    func displayData(products: [ProductListItemViewModel])
     func showEmptyState(showClearButton: Bool)
 }
 
@@ -30,8 +30,9 @@ protocol SearchProductsInteractorProtocol {
 protocol SearchProductsPresenterProtocol {
     func showLoader()
     func hideLoader()
-    func showError()
+    func showError(message: String)
     func displayData(products: [ProductListItemViewModel])
+    func showEmptyState(showClearButton: Bool)
 }
 
 protocol SearchProductsRouterProtocol {

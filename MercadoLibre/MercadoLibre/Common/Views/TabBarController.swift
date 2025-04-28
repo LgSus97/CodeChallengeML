@@ -21,10 +21,7 @@ final class TabBarController: UITabBarController {
 
         let favoritesVC = UINavigationController(rootViewController: FavoritesViewController())
         favoritesVC.tabBarItem = UITabBarItem(title: "Favoritos", image: UIImage(systemName: "heart"), tag: 1)
-
-        let notificationsVC = UINavigationController(rootViewController: NotificationsViewController())
-        notificationsVC.tabBarItem = UITabBarItem(title: "Notificaciones", image: UIImage(systemName: "bell"), tag: 2)
-
-        viewControllers = [homeVC, favoritesVC, notificationsVC]
+        
+        viewControllers = [homeVC, favoritesVC]
     }
 }

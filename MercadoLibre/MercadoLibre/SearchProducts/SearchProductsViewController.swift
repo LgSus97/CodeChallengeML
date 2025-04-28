@@ -20,6 +20,9 @@ final class SearchProductsViewController: UIViewController {
 
     var interactor: SearchProductsInteractorProtocol?
     var router: SearchProductsRouterProtocol?
+    
+    private var stateFeedbackManager: StateFeedbackManager!
+
 
     private lazy var collectionView: UICollectionView = {
         let layout = makeFlowLayoutForProducts()
@@ -46,11 +49,12 @@ final class SearchProductsViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupEmptyStateActions()
-        interactor?.getProducts(from: "tazas")
+        interactor?.getProducts(from: "macbook")
         searchHistory = interactor?.getHistory() ?? []
     }
 
     private func setupView() {
+        stateFeedbackManager = StateFeedbackManager(view: view)
         view.backgroundColor = .white
         title = "Inicio"
 
@@ -76,11 +80,12 @@ final class SearchProductsViewController: UIViewController {
 
         collectionView.isHidden = true
         emptyStateView.isHidden = true
+        showLoader()
     }
 
     private func setupEmptyStateActions() {
         emptyStateView.onButtonTap = { [weak self] in
-            self?.interactor?.getProducts(from: "tazas")
+            self?.interactor?.getProducts(from: "macbook")
         }
     }
 
@@ -143,6 +148,49 @@ final class SearchProductsViewController: UIViewController {
             collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
     }
+    
+    private func makeProductPreview(for product: ProductListItemViewModel) -> UIViewController {
+        let previewContainer = UIViewController()
+        previewContainer.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+
+        let previewCard = ProductDetailView(product: product)
+        previewCard.translatesAutoresizingMaskIntoConstraints = false
+
+        previewContainer.view.addSubview(previewCard)
+
+        NSLayoutConstraint.activate([
+            previewCard.leadingAnchor.constraint(equalTo: previewContainer.view.leadingAnchor, constant: 20),
+            previewCard.trailingAnchor.constraint(equalTo: previewContainer.view.trailingAnchor, constant: -20),
+            previewCard.centerYAnchor.constraint(equalTo: previewContainer.view.centerYAnchor)
+        ])
+
+        previewCard.animateAppearWithSpring()
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissPreview))
+        tapGesture.cancelsTouchesInView = false
+        previewContainer.view.addGestureRecognizer(tapGesture)
+
+        let closeButton = UIButton(type: .system)
+        closeButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        closeButton.tintColor = .white
+        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        closeButton.addTarget(self, action: #selector(dismissPreview), for: .touchUpInside)
+        previewContainer.view.addSubview(closeButton)
+
+        NSLayoutConstraint.activate([
+            closeButton.topAnchor.constraint(equalTo: previewContainer.view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            closeButton.trailingAnchor.constraint(equalTo: previewContainer.view.trailingAnchor, constant: -16),
+            closeButton.widthAnchor.constraint(equalToConstant: 32),
+            closeButton.heightAnchor.constraint(equalToConstant: 32)
+        ])
+
+        return previewContainer
+    }
+
+    @objc private func dismissPreview() {
+        dismiss(animated: true, completion: nil)
+    }
+
 }
 
 // MARK: - SearchProductsViewProtocol
@@ -174,9 +222,15 @@ extension SearchProductsViewController: SearchProductsViewProtocol {
         navigationItem.rightBarButtonItem?.isHidden = true
     }
 
-    func showLoader() {}
-    func hideLoader() {}
-    func showError() {}
+    func showLoader() {
+        stateFeedbackManager.showLoader()
+    }
+    func hideLoader() {
+        stateFeedbackManager.hideLoader()
+    }
+    func showError(message: String) {
+        stateFeedbackManager.showError(message: message)
+    }
 }
 
 // MARK: - UICollectionViewDataSource & Delegate
@@ -219,19 +273,35 @@ extension SearchProductsViewController: UICollectionViewDataSource, UICollection
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selected: String
         switch state {
-        case .idle: selected = searchHistory[indexPath.item]
-        case .suggesting: selected = filteredSuggestions[indexPath.item]
-        case .results, .empty: return
-        }
+        case .idle:
+            let selected = searchHistory[indexPath.item]
+            searchBar.text = selected
+            searchBar.resignFirstResponder()
+            state = .results
+            updateLayout()
+            interactor?.getProducts(from: selected)
 
-        searchBar.text = selected
-        searchBar.resignFirstResponder()
-        state = .results
-        updateLayout()
-        interactor?.getProducts(from: selected)
+        case .suggesting:
+            let selected = filteredSuggestions[indexPath.item]
+            searchBar.text = selected
+            searchBar.resignFirstResponder()
+            state = .results
+            updateLayout()
+            interactor?.getProducts(from: selected)
+
+        case .results:
+            let product = products[indexPath.item]
+            let previewVC = makeProductPreview(for: product)
+            previewVC.modalPresentationStyle = .overFullScreen
+            previewVC.modalTransitionStyle = .crossDissolve
+            present(previewVC, animated: true)
+            
+        case .empty:
+            break
+        }
     }
+
 }
 
 // MARK: - UISearchBarDelegate
@@ -253,7 +323,7 @@ extension SearchProductsViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
         state = .results
         updateLayout()
-        interactor?.getProducts(from: "tazas")
+        interactor?.getProducts(from: "macbook")
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

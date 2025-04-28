@@ -79,7 +79,7 @@ final class ProductGridCell: UICollectionViewCell {
             favoriteButton.widthAnchor.constraint(equalToConstant: 24),
             favoriteButton.heightAnchor.constraint(equalToConstant: 24),
 
-            productImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
+            productImageView.topAnchor.constraint(equalTo: favoriteButton.bottomAnchor, constant: 8),
             productImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             productImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             productImageView.heightAnchor.constraint(equalToConstant: 80),
@@ -94,6 +94,7 @@ final class ProductGridCell: UICollectionViewCell {
             nameLabel.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -8)
         ])
     }
+
 
     func configure(with model: ProductListItemViewModel) {
         nameLabel.text = model.name

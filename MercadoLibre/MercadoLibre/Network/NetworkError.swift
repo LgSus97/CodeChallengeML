@@ -23,3 +23,28 @@ enum NetworkError: Error {
         /// - Parameter code: The HTTP status code returned by the server.
         case invalidStatusCode(Int)
 }
+
+extension NetworkError {
+
+    var userFriendlyMessage: String {
+        switch self {
+        case .invalidURL:
+            return "La dirección del servidor es incorrecta. Por favor intenta más tarde."
+        case .emptyResponse:
+            return "No recibimos respuesta del servidor. Intenta nuevamente."
+        case .invalidStatusCode(let code):
+            switch code {
+            case 400:
+                return "Hubo un problema con tu solicitud. Por favor verifica los datos enviados."
+            case 401, 403:
+                return "No tienes permiso para realizar esta acción. Revisa tu sesión."
+            case 404:
+                return "No encontramos el recurso solicitado."
+            case 500...599:
+                return "Ocurrió un error interno en el servidor. Inténtalo más tarde."
+            default:
+                return "Ocurrió un error inesperado (código: \(code)). Intenta de nuevo."
+            }
+        }
+    }
+}

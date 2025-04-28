@@ -14,6 +14,10 @@ class SearchProductsPresenter {
 }
 
 extension SearchProductsPresenter: SearchProductsPresenterProtocol {
+    func showEmptyState(showClearButton: Bool) {
+        view?.showEmptyState(showClearButton: showClearButton)
+    }
+    
     func displayData(products: [ProductListItemViewModel]) {
         view?.displayData(products: products)
     }
@@ -26,7 +30,7 @@ extension SearchProductsPresenter: SearchProductsPresenterProtocol {
         view?.hideLoader()
     }
     
-    func showError() {
-        view?.showError()
+    func showError(message: String) {
+        view?.showError(message: message)
     }
 }

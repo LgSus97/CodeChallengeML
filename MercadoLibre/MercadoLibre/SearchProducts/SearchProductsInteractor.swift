@@ -35,7 +35,7 @@ final class SearchProductsInteractor {
     private func loadSearchHistory() {
         searchHistory = Array(SearchHistoryManager.fetch().map { $0.query })
     }
-
+    
 }
 
 extension SearchProductsInteractor: SearchProductsInteractorProtocol {
@@ -43,28 +43,35 @@ extension SearchProductsInteractor: SearchProductsInteractorProtocol {
     // MARK: - Network
     
     func getProducts(from query: String) {
+        presenter?.showLoader()
         networkManager.performRequest(
             service: services.getProducts(query: query)
         ) { [weak self] result in
             DispatchQueue.main.async {
-                self?.presenter?.hideLoader()
                 
                 switch result {
                 case .success(let response):
-                    guard let products = response.results else {
-                        self?.presenter?.showError()
-                        return
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        self?.presenter?.hideLoader()
+                        guard let products = response.results, !products.isEmpty else {
+                            self?.presenter?.showEmptyState(showClearButton: false);
+                            self?.presenter?.showError(message: "No encontramos productos para \"\(query)\".")
+                            return
+                        }
+                        
+                        let viewModels = products.compactMap { $0.toViewModel() }
+                        self?.presenter?.displayData(products: viewModels)
                     }
                     
-                    let viewModels = products.compactMap { $0.toViewModel() }
-                    self?.presenter?.displayData(products: viewModels)
-                    
-                case .failure:
-                    self?.presenter?.showError()
+                case .failure(let error):
+                    self?.presenter?.hideLoader()
+                    self?.presenter?.showEmptyState(showClearButton: false);
+                    self?.presenter?.showError(message: (error as? NetworkError)?.userFriendlyMessage ?? "Ocurrió un error inesperado. Inténtalo de nuevo.")
                 }
             }
         }
     }
+    
     
     // MARK: - Persistence
     
@@ -115,6 +122,6 @@ extension SearchProductsInteractor: SearchProductsInteractorProtocol {
         
         return (brands: brands, models: models, colors: colors)
     }
-
-
+    
+    
 }
