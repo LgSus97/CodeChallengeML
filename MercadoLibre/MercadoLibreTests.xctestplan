@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "F0026190-832E-4836-9F3D-121DD3619040",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:MercadoLibre.xcodeproj",
+        "identifier" : "C05073FC2DBB01190007C352",
+        "name" : "MercadoLibreTests"
+      }
+    }
+  ],
+  "version" : 1
+}

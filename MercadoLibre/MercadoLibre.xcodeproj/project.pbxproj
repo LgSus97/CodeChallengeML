@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C05075002DBC2E5D0007C352 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C05074FF2DBC2E5D0007C352 /* Kingfisher */; };
+		C05075152DBCB6270007C352 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C05075142DBCB6270007C352 /* RealmSwift */; };
+		C05075162DBCB6560007C352 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = C05075142DBCB6270007C352 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		C075AB4C2DBF833F00E3CD02 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C075AB4B2DBF833F00E3CD02 /* XCTest.framework */; platformFilter = ios; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		C05073FE2DBB01190007C352 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -23,10 +30,27 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C05075112DBCB55B0007C352 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C05075162DBCB6560007C352 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		C05073E72DBB01160007C352 /* MercadoLibre.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MercadoLibre.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C05073FD2DBB01190007C352 /* MercadoLibreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MercadoLibreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C05074072DBB01190007C352 /* MercadoLibreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MercadoLibreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C075AB4B2DBF833F00E3CD02 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		C075AB4F2DBF8DCD00E3CD02 /* MercadoLibreTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MercadoLibreTests.xctestplan; sourceTree = "<group>"; };
+		C075AB502DBF8E3600E3CD02 /* MercadoLibre.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MercadoLibre.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +60,20 @@
 				Info.plist,
 			);
 			target = C05073E62DBB01160007C352 /* MercadoLibre */;
+		};
+		C075AB482DBF7EFA00E3CD02 /* Exceptions for "MercadoLibreTests" folder in "MercadoLibre" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MockNetworkManager.swift,
+			);
+			target = C05073E62DBB01160007C352 /* MercadoLibre */;
+		};
+		C075AB492DBF7EFA00E3CD02 /* Exceptions for "MercadoLibreTests" folder in "MercadoLibreTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MockNetworkManager.swift,
+			);
+			target = C05073FC2DBB01190007C352 /* MercadoLibreTests */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -50,6 +88,10 @@
 		};
 		C05074002DBB01190007C352 /* MercadoLibreTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C075AB482DBF7EFA00E3CD02 /* Exceptions for "MercadoLibreTests" folder in "MercadoLibre" target */,
+				C075AB492DBF7EFA00E3CD02 /* Exceptions for "MercadoLibreTests" folder in "MercadoLibreTests" target */,
+			);
 			path = MercadoLibreTests;
 			sourceTree = "<group>";
 		};
@@ -65,6 +107,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C05075152DBCB6270007C352 /* RealmSwift in Frameworks */,
+				C05075002DBC2E5D0007C352 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C075AB4C2DBF833F00E3CD02 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,9 +133,12 @@
 		C05073DE2DBB01160007C352 = {
 			isa = PBXGroup;
 			children = (
+				C075AB502DBF8E3600E3CD02 /* MercadoLibre.xctestplan */,
+				C075AB4F2DBF8DCD00E3CD02 /* MercadoLibreTests.xctestplan */,
 				C05073E92DBB01160007C352 /* MercadoLibre */,
 				C05074002DBB01190007C352 /* MercadoLibreTests */,
 				C050740A2DBB01190007C352 /* MercadoLibreUITests */,
+				C075AB4A2DBF833F00E3CD02 /* Frameworks */,
 				C05073E82DBB01160007C352 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -105,6 +153,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C075AB4A2DBF833F00E3CD02 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C075AB4B2DBF833F00E3CD02 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -115,6 +171,7 @@
 				C05073E32DBB01160007C352 /* Sources */,
 				C05073E42DBB01160007C352 /* Frameworks */,
 				C05073E52DBB01160007C352 /* Resources */,
+				C05075112DBCB55B0007C352 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -125,6 +182,8 @@
 			);
 			name = MercadoLibre;
 			packageProductDependencies = (
+				C05074FF2DBC2E5D0007C352 /* Kingfisher */,
+				C05075142DBCB6270007C352 /* RealmSwift */,
 			);
 			productName = MercadoLibre;
 			productReference = C05073E72DBB01160007C352 /* MercadoLibre.app */;
@@ -208,6 +267,10 @@
 			);
 			mainGroup = C05073DE2DBB01160007C352;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C05074FE2DBC2E5C0007C352 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				C05075132DBCB6270007C352 /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C05073E82DBB01160007C352 /* Products */;
 			projectDirPath = "";
@@ -294,7 +357,6 @@
 				INFOPLIST_FILE = MercadoLibre/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -322,7 +384,6 @@
 				INFOPLIST_FILE = MercadoLibre/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -571,6 +632,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C05074FE2DBC2E5C0007C352 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.2;
+			};
+		};
+		C05075132DBCB6270007C352 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C05074FF2DBC2E5D0007C352 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C05074FE2DBC2E5C0007C352 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		C05075142DBCB6270007C352 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C05075132DBCB6270007C352 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C05073DF2DBB01160007C352 /* Project object */;
 }
