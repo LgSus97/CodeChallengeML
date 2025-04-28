@@ -10,6 +10,7 @@ import Foundation
 
 /// Common errors that can occur during network requests.
 enum NetworkError: Error {
+    
     /// The URL could not be constructed properly.
     case invalidURL
 
@@ -17,15 +18,13 @@ enum NetworkError: Error {
     case emptyResponse
     
     /// The server responded with an unexpected HTTP status code (outside the 200–299 range).
-        ///
-        /// Use this to differentiate between types of server-side issues (e.g. 404, 500, etc.).
-        ///
-        /// - Parameter code: The HTTP status code returned by the server.
-        case invalidStatusCode(Int)
+    /// - Parameter code: The HTTP status code returned by the server.
+    case invalidStatusCode(Int)
 }
 
 extension NetworkError {
 
+    /// Provides a user-friendly error message based on the type of network error.
     var userFriendlyMessage: String {
         switch self {
         case .invalidURL:
@@ -48,3 +47,4 @@ extension NetworkError {
         }
     }
 }
+

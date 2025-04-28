@@ -7,25 +7,33 @@
 
 import UIKit
 
+/// A view controller that allows users to select brand and color filters.
 final class FilterViewController: UIViewController {
+
+    // MARK: - Properties
 
     var brands: [String] = []
     var colors: [String] = []
-
+    
+    /// Closure called when the user applies selected filters.
     var onApplyFilters: ((String?, String?) -> Void)?
-
+    
     private var selectedBrand: String?
     private var selectedColor: String?
-
+    
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Filtros"
+        title = "Filters"
         view.backgroundColor = .systemGroupedBackground
         setupTableView()
         setupNavigationBar()
     }
+
+    // MARK: - Setup Methods
 
     private func setupTableView() {
         view.addSubview(tableView)
@@ -46,19 +54,21 @@ final class FilterViewController: UIViewController {
 
     private func setupNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Aplicar",
+            title: "Apply",
             style: .done,
             target: self,
             action: #selector(applyFilters)
         )
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: "Limpiar",
+            title: "Clear",
             style: .plain,
             target: self,
             action: #selector(clearFilters)
         )
     }
+
+    // MARK: - Actions
 
     @objc private func applyFilters() {
         onApplyFilters?(selectedBrand, selectedColor)
@@ -72,17 +82,20 @@ final class FilterViewController: UIViewController {
     }
 }
 
-// MARK: - TableView
+// MARK: - UITableViewDelegate & UITableViewDataSource
 
 extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int { 2 }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? brands.count : colors.count
+        return section == 0 ? brands.count : colors.count
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        section == 0 ? "Marca" : "Color"
+        return section == 0 ? "Brand" : "Color"
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

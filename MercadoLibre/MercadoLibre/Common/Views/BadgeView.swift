@@ -8,7 +8,11 @@
 import UIKit
 
 
+// MARK: - InsetLabel
+
+/// A UILabel subclass that adds padding around its text.
 class InsetLabel: UILabel {
+    
     var contentInset = UIEdgeInsets(top: 2, left: 8, bottom: 2, right: 8)
 
     override func drawText(in rect: CGRect) {
@@ -17,11 +21,16 @@ class InsetLabel: UILabel {
 
     override var intrinsicContentSize: CGSize {
         let size = super.intrinsicContentSize
-        return CGSize(width: size.width + contentInset.left + contentInset.right,
-                      height: size.height + contentInset.top + contentInset.bottom)
+        return CGSize(
+            width: size.width + contentInset.left + contentInset.right,
+            height: size.height + contentInset.top + contentInset.bottom
+        )
     }
 }
 
+// MARK: - BadgeView
+
+/// A badge view with custom padding and background color.
 final class BadgeView: InsetLabel {
 
     init(text: String, backgroundColor: UIColor) {
@@ -42,15 +51,20 @@ final class BadgeView: InsetLabel {
     }
 }
 
+// MARK: - BadgesFlowView
+
+/// A custom view that arranges badges in a wrapping flow layout.
 final class BadgesFlowView: UIView {
-
+    
+    // MARK: - Properties
+    
     private var badges: [ProductBadge] = []
-
     private let spacing: CGFloat = 4
     private let badgeHeight: CGFloat = 20
-
     private var badgeLabels: [UILabel] = []
 
+    // MARK: - Layout
+    
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -90,11 +104,16 @@ final class BadgesFlowView: UIView {
         return CGSize(width: UIView.noIntrinsicMetric, height: totalHeight)
     }
 
+    // MARK: - Public Methods
+
+    /// Sets the badges to display.
     func setBadges(_ badges: [ProductBadge]) {
         self.badges = badges
         setNeedsLayout()
         layoutIfNeeded()
     }
+
+    // MARK: - Private Methods
 
     private func makeLabel(for badge: ProductBadge) -> UILabel {
         let label = UILabel()
@@ -122,39 +141,22 @@ final class BadgesFlowView: UIView {
     private func text(for badge: ProductBadge) -> String {
         switch badge {
         case .freeShipping:
-            return "Envío gratis"
+            return "Free Shipping"
         case .limitedStock:
-            return "Stock limitado"
+            return "Limited Stock"
         case .internationalShipping:
-            return "Envío internacional"
+            return "International Shipping"
         }
     }
 }
-
-
-// MARK: - UICollectionViewDataSource
-extension BadgesFlowView: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return badges.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BadgeCell.reuseIdentifier, for: indexPath) as? BadgeCell else {
-            return UICollectionViewCell()
-        }
-        cell.configure(with: badges[indexPath.item])
-        return cell
-    }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-extension BadgesFlowView: UICollectionViewDelegateFlowLayout {}
 
 // MARK: - BadgeCell
+
+/// A UICollectionViewCell that displays a badge.
 final class BadgeCell: UICollectionViewCell {
-
+    
     static let reuseIdentifier = "BadgeCell"
-
+    
     private let label = UILabel()
 
     override init(frame: CGRect) {
@@ -187,23 +189,27 @@ final class BadgeCell: UICollectionViewCell {
         ])
     }
 
+    /// Configures the cell with a given badge.
     func configure(with badge: ProductBadge) {
         switch badge {
         case .freeShipping:
             contentView.backgroundColor = UIColor.systemGreen
-            label.text = "Envío gratis"
+            label.text = "Free Shipping"
         case .limitedStock:
             contentView.backgroundColor = UIColor.systemOrange
-            label.text = "Stock limitado"
+            label.text = "Limited Stock"
         case .internationalShipping:
             contentView.backgroundColor = UIColor.systemBlue
-            label.text = "Envío internacional"
+            label.text = "International Shipping"
         }
     }
 }
 
-// MARK: - Left Aligned Layout
+// MARK: - LeftAlignedCollectionViewFlowLayout
+
+/// A custom flow layout that aligns cells to the left.
 final class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
+    
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         let attributes = super.layoutAttributesForElements(in: rect)
 
@@ -215,16 +221,12 @@ final class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
                 if layoutAttribute.frame.origin.y >= maxY {
                     leftMargin = sectionInset.left
                 }
-
                 layoutAttribute.frame.origin.x = leftMargin
-
                 leftMargin += layoutAttribute.frame.width + minimumInteritemSpacing
-                maxY = max(layoutAttribute.frame.maxY , maxY)
+                maxY = max(layoutAttribute.frame.maxY, maxY)
             }
         }
 
         return attributes
     }
 }
-
-

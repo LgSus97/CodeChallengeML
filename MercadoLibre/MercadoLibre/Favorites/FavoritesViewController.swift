@@ -9,8 +9,11 @@ import UIKit
 
 final class FavoritesViewController: UIViewController {
 
+    // MARK: - Properties
+
     var interactor: FavoritesInteractorProtocol?
     private var favorites: [ProductListItemViewModel] = []
+    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -24,6 +27,8 @@ final class FavoritesViewController: UIViewController {
     
     private let emptyStateView = EmptyStateView()
 
+    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -34,6 +39,8 @@ final class FavoritesViewController: UIViewController {
         super.viewWillAppear(animated)
         loadFavorites()
     }
+
+    // MARK: - Setup
 
     private func setupView() {
         view.backgroundColor = .systemBackground
@@ -65,6 +72,8 @@ final class FavoritesViewController: UIViewController {
         emptyStateView.isHidden = true
     }
 
+    // MARK: - Data Loading
+
     private func loadFavorites() {
         favorites = interactor?.getProducts() ?? []
         collectionView.reloadData()
@@ -77,7 +86,9 @@ final class FavoritesViewController: UIViewController {
         collectionView.isHidden = !hasFavorites
         emptyStateView.isHidden = hasFavorites
     }
-    
+
+    // MARK: - Helpers
+
     private func makePreview(for product: ProductListItemViewModel) -> UIViewController {
         let previewContainer = UIViewController()
         previewContainer.view.backgroundColor = .clear
@@ -118,12 +129,11 @@ final class FavoritesViewController: UIViewController {
             self.checkIfFavoritesEmpty()
         }
     }
-
 }
 
-// MARK: - CollectionView
+// MARK: - UICollectionViewDataSource
 
-extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension FavoritesViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         favorites.count
@@ -137,10 +147,14 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
         cell.configure(with: model)
         return cell
     }
+}
 
+// MARK: - UICollectionViewDelegate
+
+extension FavoritesViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+        // No-op (currently not implemented)
     }
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
@@ -163,7 +177,5 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
             }
         )
     }
-
 }
-
 

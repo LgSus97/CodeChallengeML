@@ -83,7 +83,7 @@ final class NetworkManager {
             }
 
             if let error = error {
-                print("❌ Network Error: \(error.localizedDescription)")
+                print(" Network Error: \(error.localizedDescription)")
                 completion(.failure(error))
                 return
             }
@@ -93,9 +93,9 @@ final class NetworkManager {
                 return
             }
 
-            // 🔥 Validate status code
+            //  Validate status code
             guard (200...299).contains(httpResponse.statusCode) else {
-                print("❌ HTTP Error Code: \(httpResponse.statusCode)")
+                print(" HTTP Error Code: \(httpResponse.statusCode)")
                 completion(.failure(NetworkError.invalidStatusCode(httpResponse.statusCode)))
                 return
             }
@@ -109,7 +109,7 @@ final class NetworkManager {
                 let decoded = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(decoded))
             } catch {
-                print("❌ Decoding Error: \(error.localizedDescription)")
+                print(" Decoding Error: \(error.localizedDescription)")
                 completion(.failure(error))
             }
         }.resume()

@@ -10,6 +10,7 @@
 		C05075002DBC2E5D0007C352 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C05074FF2DBC2E5D0007C352 /* Kingfisher */; };
 		C05075152DBCB6270007C352 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C05075142DBCB6270007C352 /* RealmSwift */; };
 		C05075162DBCB6560007C352 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = C05075142DBCB6270007C352 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		C075AB4C2DBF833F00E3CD02 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C075AB4B2DBF833F00E3CD02 /* XCTest.framework */; platformFilter = ios; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,9 @@
 		C05073E72DBB01160007C352 /* MercadoLibre.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MercadoLibre.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C05073FD2DBB01190007C352 /* MercadoLibreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MercadoLibreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C05074072DBB01190007C352 /* MercadoLibreUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MercadoLibreUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C075AB4B2DBF833F00E3CD02 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		C075AB4F2DBF8DCD00E3CD02 /* MercadoLibreTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MercadoLibreTests.xctestplan; sourceTree = "<group>"; };
+		C075AB502DBF8E3600E3CD02 /* MercadoLibre.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MercadoLibre.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -56,6 +60,20 @@
 				Info.plist,
 			);
 			target = C05073E62DBB01160007C352 /* MercadoLibre */;
+		};
+		C075AB482DBF7EFA00E3CD02 /* Exceptions for "MercadoLibreTests" folder in "MercadoLibre" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MockNetworkManager.swift,
+			);
+			target = C05073E62DBB01160007C352 /* MercadoLibre */;
+		};
+		C075AB492DBF7EFA00E3CD02 /* Exceptions for "MercadoLibreTests" folder in "MercadoLibreTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MockNetworkManager.swift,
+			);
+			target = C05073FC2DBB01190007C352 /* MercadoLibreTests */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -70,6 +88,10 @@
 		};
 		C05074002DBB01190007C352 /* MercadoLibreTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C075AB482DBF7EFA00E3CD02 /* Exceptions for "MercadoLibreTests" folder in "MercadoLibre" target */,
+				C075AB492DBF7EFA00E3CD02 /* Exceptions for "MercadoLibreTests" folder in "MercadoLibreTests" target */,
+			);
 			path = MercadoLibreTests;
 			sourceTree = "<group>";
 		};
@@ -94,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C075AB4C2DBF833F00E3CD02 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,9 +133,12 @@
 		C05073DE2DBB01160007C352 = {
 			isa = PBXGroup;
 			children = (
+				C075AB502DBF8E3600E3CD02 /* MercadoLibre.xctestplan */,
+				C075AB4F2DBF8DCD00E3CD02 /* MercadoLibreTests.xctestplan */,
 				C05073E92DBB01160007C352 /* MercadoLibre */,
 				C05074002DBB01190007C352 /* MercadoLibreTests */,
 				C050740A2DBB01190007C352 /* MercadoLibreUITests */,
+				C075AB4A2DBF833F00E3CD02 /* Frameworks */,
 				C05073E82DBB01160007C352 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -125,6 +151,14 @@
 				C05074072DBB01190007C352 /* MercadoLibreUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C075AB4A2DBF833F00E3CD02 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C075AB4B2DBF833F00E3CD02 /* XCTest.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -12,16 +12,22 @@ import RealmSwift
 /// Models used to decode the search products API response from Mercado Libre.
 struct SearchProductsModels: Codable {
     
+    // MARK: - Response
+
     struct Response: Codable {
         let keywords: String?
         let paging: Paging?
         let results: [Product]?
+        
+        // MARK: - Paging
         
         struct Paging: Codable {
             let total: Int?
             let limit: Int?
             let offset: Int?
         }
+        
+        // MARK: - Product
         
         struct Product: Codable {
             let id: String?
@@ -39,6 +45,8 @@ struct SearchProductsModels: Codable {
             }
         }
         
+        // MARK: - ProductAttribute
+        
         struct ProductAttribute: Codable {
             let id: String?
             let name: String?
@@ -52,6 +60,8 @@ struct SearchProductsModels: Codable {
             }
         }
         
+        // MARK: - ProductPicture
+        
         struct ProductPicture: Codable {
             let id: String?
             let url: String?
@@ -59,14 +69,17 @@ struct SearchProductsModels: Codable {
     }
 }
 
+// MARK: - Search State
 
+/// Represents the different states during a product search.
 enum SearchState {
-    case idle          // no se ha escrito nada
-    case suggesting    // está escribiendo
-    case results       // productos encontrados
-    case empty         // no se encontraron resultados
+    case idle          // No input yet
+    case suggesting    // User is typing
+    case results       // Products found
+    case empty         // No products found
 }
 
+// MARK: - Product ViewModel
 
 /// ViewModel used to represent a product in the search results list.
 ///
@@ -83,14 +96,21 @@ public struct ProductListItemViewModel {
     var isFavorite: Bool = false
 }
 
+// MARK: - Product Badges
 
+/// Represents badges or highlights for a product (e.g., free shipping).
 enum ProductBadge: String, PersistableEnum {
     case freeShipping
     case limitedStock
     case internationalShipping
 }
 
+// MARK: - Mapping to ViewModel
+
 extension SearchProductsModels.Response.Product {
+
+    /// Converts a `Product` model to a `ProductListItemViewModel`.
+    /// - Returns: A mapped `ProductListItemViewModel`, or nil if essential fields are missing.
     func toViewModel() -> ProductListItemViewModel? {
         guard let id = id, let name = name else { return nil }
         
@@ -113,19 +133,21 @@ extension SearchProductsModels.Response.Product {
     }
 }
 
+// MARK: - Attribute Extraction Helpers
+
 extension SearchProductsModels.Response.Product {
     
-    /// Returns the brand if available.
+    /// Returns the product brand if available.
     func brandName() -> String? {
         return attributes?.first(where: { $0.id == "BRAND" })?.valueName
     }
     
-    /// Returns the model if available.
+    /// Returns the product model if available.
     func modelName() -> String? {
         return attributes?.first(where: { $0.id == "MODEL" })?.valueName
     }
     
-    /// Returns the color if available.
+    /// Returns the product color if available.
     func colorName() -> String? {
         return attributes?.first(where: { $0.id == "COLOR" })?.valueName
     }

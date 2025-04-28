@@ -7,8 +7,11 @@
 
 import UIKit
 
+/// A custom UICollectionViewCell that displays a previous search query from the search history.
 final class SearchHistoryCell: UICollectionViewCell {
     
+    // MARK: - UI Components
+
     private let clockIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "clock")
@@ -25,7 +28,9 @@ final class SearchHistoryCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
+    // MARK: - Initializers
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCell()
@@ -34,7 +39,10 @@ final class SearchHistoryCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    // MARK: - Setup
+
+    /// Configures the visual appearance and layout of the cell.
     private func setupCell() {
         backgroundColor = .clear
         contentView.backgroundColor = .clear
@@ -53,8 +61,13 @@ final class SearchHistoryCell: UICollectionViewCell {
             historyLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
-    
+
+    // MARK: - Public Methods
+
+    /// Configures the cell with a given search text.
+    /// - Parameter text: The search query to display.
     func configure(with text: String) {
         historyLabel.text = text
     }
 }
+

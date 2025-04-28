@@ -8,9 +8,10 @@
 import UIKit
 import Kingfisher
 
-// MARK: - ProductGridCell
-
+/// A custom UICollectionViewCell used to display a product in a grid layout, including image, badges, name, and favorite button.
 final class ProductGridCell: UICollectionViewCell {
+    
+    // MARK: - UI Components
 
     private let containerView = UIView()
     private let badgesFlow = BadgesFlowView()
@@ -18,7 +19,12 @@ final class ProductGridCell: UICollectionViewCell {
     private let nameLabel = UILabel()
     private let favoriteButton = UIButton(type: .system)
 
+    // MARK: - Public Properties
+
+    /// Closure triggered when the favorite button is tapped.
     var onFavoriteTapped: (() -> Void)?
+
+    // MARK: - Initializers
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,6 +35,9 @@ final class ProductGridCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Setup
+
+    /// Configures the visual appearance and layout of the cell.
     private func setupCell() {
         backgroundColor = .clear
         contentView.backgroundColor = .clear
@@ -67,6 +76,7 @@ final class ProductGridCell: UICollectionViewCell {
         setupConstraints()
     }
 
+    /// Sets up Auto Layout constraints for the cell's subviews.
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
@@ -95,7 +105,10 @@ final class ProductGridCell: UICollectionViewCell {
         ])
     }
 
+    // MARK: - Public Methods
 
+    /// Configures the cell with product data.
+    /// - Parameter model: The view model containing product information.
     func configure(with model: ProductListItemViewModel) {
         nameLabel.text = model.name
 
@@ -105,13 +118,15 @@ final class ProductGridCell: UICollectionViewCell {
             productImageView.image = UIImage(systemName: "photo")
         }
 
-        let heartImage = model.isFavorite ? "heart.fill" : "heart"
-        let heartColor: UIColor = model.isFavorite ? UIColor.systemBlue : UIColor.systemGray
-        favoriteButton.setImage(UIImage(systemName: heartImage), for: .normal)
+        let heartImageName = model.isFavorite ? "heart.fill" : "heart"
+        let heartColor: UIColor = model.isFavorite ? .systemBlue : .systemGray
+        favoriteButton.setImage(UIImage(systemName: heartImageName), for: .normal)
         favoriteButton.tintColor = heartColor
 
         badgesFlow.setBadges(model.badges)
     }
+
+    // MARK: - Actions
 
     @objc private func favoriteTapped() {
         onFavoriteTapped?()

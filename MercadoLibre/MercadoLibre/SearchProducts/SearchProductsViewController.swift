@@ -9,7 +9,9 @@ import UIKit
 
 
 final class SearchProductsViewController: UIViewController {
-
+    
+    // MARK: - Properties
+    
     private var state: SearchState = .results
     private var products: [ProductListItemViewModel] = []
     private var searchHistory: [String] = []
@@ -45,6 +47,8 @@ final class SearchProductsViewController: UIViewController {
         return stack
     }()
 
+    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -52,6 +56,8 @@ final class SearchProductsViewController: UIViewController {
         interactor?.getProducts(from: "macbook")
         searchHistory = interactor?.getHistory() ?? []
     }
+    
+    // MARK: - Setup
 
     private func setupView() {
         stateFeedbackManager = StateFeedbackManager(view: view)
@@ -101,6 +107,8 @@ final class SearchProductsViewController: UIViewController {
         navController.modalPresentationStyle = .automatic
         present(navController, animated: true)
     }
+    
+    // MARK: - Actions
 
     private func applyFilters(brand: String?, model: String?, color: String?) {
         let filteredModels = interactor?.filterProducts(products: products, brand: brand, model: model, color: color) ?? []
@@ -133,6 +141,8 @@ final class SearchProductsViewController: UIViewController {
         collectionView.setCollectionViewLayout(layout, animated: false)
     }
 
+    // MARK: - Favorites
+
     private func handleFavoriteTapped(for model: ProductListItemViewModel) {
         var newModel = model
         newModel.isFavorite.toggle()
@@ -148,6 +158,8 @@ final class SearchProductsViewController: UIViewController {
             collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         }
     }
+    
+    // MARK: - Preview
     
     private func makeProductPreview(for product: ProductListItemViewModel) -> UIViewController {
         let previewContainer = UIViewController()

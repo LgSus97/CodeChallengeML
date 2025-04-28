@@ -8,17 +8,28 @@
 import UIKit
 
 
+/// A manager responsible for displaying loading indicators and error messages over a given view.
 final class StateFeedbackManager {
 
+    /// The main view where feedback elements (loader, overlay) will be displayed.
     private weak var view: UIView?
+    
+    /// A blurred background view (currently unused).
     private var blurView: UIVisualEffectView?
+    
+    /// A semi-transparent overlay view used when showing a loader.
     private var overlayView: UIView?
+    
+    /// An activity indicator displayed during loading states.
     private var loader: UIActivityIndicatorView?
 
+    /// Initializes the manager with a target view.
+    /// - Parameter view: The view to display loading or error feedback on.
     init(view: UIView) {
         self.view = view
     }
 
+    /// Displays a loading indicator over the entire view with a semi-transparent background.
     func showLoader() {
         guard let view = view else { return }
         if overlayView != nil { return }
@@ -47,6 +58,7 @@ final class StateFeedbackManager {
         self.loader = loader
     }
 
+    /// Hides the loading indicator and removes the overlay view.
     func hideLoader() {
         loader?.stopAnimating()
         overlayView?.removeFromSuperview()
@@ -54,18 +66,19 @@ final class StateFeedbackManager {
         overlayView = nil
     }
 
-
-    func showError(message: String = "Ocurrió un error inesperado") {
+    /// Displays an error alert with a given message.
+    /// - Parameter message: The error message to display. Defaults to a generic error message.
+    func showError(message: String = "An unexpected error occurred") {
         guard let viewController = view?.parentViewController else { return }
 
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Aceptar", style: .default))
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
         viewController.present(alert, animated: true)
     }
-    
 }
 
 private extension UIView {
+    /// Finds the parent view controller of the view, if it exists.
     var parentViewController: UIViewController? {
         var parentResponder: UIResponder? = self
         while parentResponder != nil {

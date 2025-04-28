@@ -8,8 +8,8 @@
 import UIKit
 
 extension UIView {
-    
-    /// Hace que la vista aparezca con un pequeño efecto de "bloom" o rebote elegante.
+
+    /// Animates the view's appearance with a subtle spring (bloom/rebound) effect.
     func animateAppearWithSpring() {
         self.alpha = 0
         self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
@@ -28,7 +28,7 @@ extension UIView {
         )
     }
     
-    /// Hace que la vista desaparezca con un efecto de desvanecido suave.
+    /// Animates the view's disappearance with a smooth fade-out effect.
     func animateDisappear(completion: (() -> Void)? = nil) {
         UIView.animate(
             withDuration: 0.25,
@@ -42,7 +42,7 @@ extension UIView {
         )
     }
     
-    /// Hace una transición elegante tipo "Cross Dissolve" entre dos vistas.
+    /// Performs a cross-dissolve transition between two views inside a container.
     static func transition(from oldView: UIView, to newView: UIView, in containerView: UIView, duration: TimeInterval = 0.4) {
         UIView.transition(
             from: oldView,
@@ -53,29 +53,29 @@ extension UIView {
         )
     }
     
-    /// Hace que la vista caiga flotando con rebote usando UIKit Dynamics
-      func animateFallIn(from offsetY: CGFloat = -200) {
-          self.alpha = 0
-          self.transform = CGAffineTransform(translationX: 0, y: offsetY)
-          self.isHidden = false
+    /// Animates the view falling in from the top with a bounce effect.
+    func animateFallIn(from offsetY: CGFloat = -200) {
+        self.alpha = 0
+        self.transform = CGAffineTransform(translationX: 0, y: offsetY)
+        self.isHidden = false
 
-          UIView.animate(
-              withDuration: 0.8,
-              delay: 0,
-              usingSpringWithDamping: 0.6,
-              initialSpringVelocity: 0.5,
-              options: [.curveEaseOut],
-              animations: {
-                  self.alpha = 1
-                  self.transform = .identity
-              }
-          )
-      }
+        UIView.animate(
+            withDuration: 0.8,
+            delay: 0,
+            usingSpringWithDamping: 0.6,
+            initialSpringVelocity: 0.5,
+            options: [.curveEaseOut],
+            animations: {
+                self.alpha = 1
+                self.transform = .identity
+            }
+        )
+    }
 }
-
 
 private extension UIView {
 
+    /// Animates an array of views to appear sequentially with a cascading spring effect.
     static func animateCascade(
         views: [UIView],
         duration: TimeInterval,
@@ -104,6 +104,7 @@ private extension UIView {
 
 extension UITableView {
 
+    /// Animates all currently visible cells with a cascading spring effect.
     func animateVisibleCells(
         duration: TimeInterval = 0.6,
         delay: TimeInterval = 0.05,
@@ -122,6 +123,7 @@ extension UITableView {
 
 extension UICollectionView {
 
+    /// Animates all currently visible cells with a cascading spring effect.
     func animateVisibleCells(
         duration: TimeInterval = 0.6,
         delay: TimeInterval = 0.05,

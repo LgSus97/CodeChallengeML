@@ -7,12 +7,17 @@
 
 import UIKit
 
+/// A custom view that displays product details including image, name, price, and stock status.
 final class ProductDetailView: UIView {
     
+    // MARK: - UI Components
+
     private let imageView = UIImageView()
     private let nameLabel = UILabel()
     private let priceLabel = UILabel()
     private let stockLabel = UILabel()
+
+    // MARK: - Initializers
 
     init(product: ProductListItemViewModel) {
         super.init(frame: .zero)
@@ -24,6 +29,9 @@ final class ProductDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Setup
+
+    /// Configures the view hierarchy and layout.
     private func setupView() {
         backgroundColor = .white
         layer.cornerRadius = 16
@@ -34,14 +42,15 @@ final class ProductDetailView: UIView {
 
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+
         nameLabel.font = .systemFont(ofSize: 16, weight: .semibold)
         nameLabel.numberOfLines = 2
         nameLabel.textAlignment = .center
-        
+
         priceLabel.font = .boldSystemFont(ofSize: 16)
         priceLabel.textColor = .systemGreen
         priceLabel.textAlignment = .center
-        
+
         stockLabel.font = .systemFont(ofSize: 13)
         stockLabel.textColor = .secondaryLabel
         stockLabel.textAlignment = .center
@@ -53,6 +62,7 @@ final class ProductDetailView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(stack)
+
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
@@ -64,6 +74,10 @@ final class ProductDetailView: UIView {
         ])
     }
 
+    // MARK: - Public Methods
+
+    /// Configures the view with a product's information.
+    /// - Parameter product: The product to display.
     func configure(with product: ProductListItemViewModel) {
         if let url = product.imageUrl {
             imageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"))
@@ -72,6 +86,6 @@ final class ProductDetailView: UIView {
         }
         nameLabel.text = product.name
         priceLabel.text = "$\(Int.random(in: 300...999)) MXN"
-        stockLabel.text = Bool.random() ? "Disponible para envío inmediato" : "Stock limitado"
+        stockLabel.text = Bool.random() ? "Available for immediate shipping" : "Limited stock"
     }
 }

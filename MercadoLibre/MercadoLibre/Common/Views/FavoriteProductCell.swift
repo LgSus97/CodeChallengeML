@@ -7,12 +7,17 @@
 
 import UIKit
 
+/// A custom UICollectionViewCell used to display a favorite product.
 final class FavoriteProductCell: UICollectionViewCell {
+
+    // MARK: - UI Components
 
     private let containerView = UIView()
     private let productImageView = UIImageView()
     private let nameLabel = UILabel()
     private let brandLabel = UILabel()
+
+    // MARK: - Initializers
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,6 +28,9 @@ final class FavoriteProductCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Setup
+
+    /// Configures the visual appearance and layout of the cell.
     private func setupCell() {
         backgroundColor = .clear
         contentView.backgroundColor = .clear
@@ -59,6 +67,7 @@ final class FavoriteProductCell: UICollectionViewCell {
         setupConstraints()
     }
 
+    /// Sets up Auto Layout constraints for the cell's subviews.
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
@@ -81,11 +90,14 @@ final class FavoriteProductCell: UICollectionViewCell {
         ])
     }
 
+    // MARK: - Public Methods
+
+    /// Configures the cell with product data.
+    /// - Parameter model: The view model containing product information.
     func configure(with model: ProductListItemViewModel) {
         nameLabel.text = model.name
         brandLabel.text = model.brand ?? ""
 
-    
         if let url = model.imageUrl {
             productImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"))
         } else {
@@ -93,3 +105,4 @@ final class FavoriteProductCell: UICollectionViewCell {
         }
     }
 }
+

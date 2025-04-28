@@ -7,15 +7,33 @@
 import Foundation
 import RealmSwift
 
+/// A Realm model representing a favorite product.
 final class FavoriteProductModel: Object {
+    
+    /// The unique identifier of the product.
     @Persisted(primaryKey: true) var id: String
+    
+    /// The product's name.
     @Persisted var name: String
+    
+    /// The URL string of the product's image.
     @Persisted var imageUrlString: String?
+    
+    /// The product's brand name.
     @Persisted var brand: String?
+    
+    /// The product's model name.
     @Persisted var model: String?
+    
+    /// The product's color.
     @Persisted var color: String?
+    
+    /// A list of badges associated with the product.
     @Persisted var badges: List<ProductBadge>
 
+    /// Creates a `FavoriteProductModel` from a `ProductListItemViewModel`.
+    /// - Parameter model: The view model to map from.
+    /// - Returns: A populated `FavoriteProductModel` instance.
     static func from(model: ProductListItemViewModel) -> FavoriteProductModel {
         let favorite = FavoriteProductModel()
         favorite.id = model.id
@@ -28,6 +46,8 @@ final class FavoriteProductModel: Object {
         return favorite
     }
 
+    /// Converts the current model into a `ProductListItemViewModel`.
+    /// - Returns: A `ProductListItemViewModel` populated with the model's data.
     func toProductListItemViewModel() -> ProductListItemViewModel {
         return ProductListItemViewModel(
             id: id,
