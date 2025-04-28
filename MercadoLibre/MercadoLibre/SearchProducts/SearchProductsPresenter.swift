@@ -14,7 +14,7 @@ class SearchProductsPresenter {
 }
 
 extension SearchProductsPresenter: SearchProductsPresenterProtocol {
-    func displayData(products: [ProductView]) {
+    func displayData(products: [ProductListItemViewModel]) {
         view?.displayData(products: products)
     }
         

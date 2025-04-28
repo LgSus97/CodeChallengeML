@@ -33,8 +33,9 @@ final class SearchProductsInteractor {
     // MARK: - Private Methods
     
     private func loadSearchHistory() {
-        searchHistory = Array(SearchHistoryManager.fetch().map { $0.query }.prefix(10))
+        searchHistory = Array(SearchHistoryManager.fetch().map { $0.query })
     }
+
 }
 
 extension SearchProductsInteractor: SearchProductsInteractorProtocol {
@@ -69,11 +70,16 @@ extension SearchProductsInteractor: SearchProductsInteractorProtocol {
     
     func saveSearch(_ query: String) {
         SearchHistoryManager.save(query: query)
-        loadSearchHistory() // Refresh local copy
+        loadSearchHistory()
     }
     
     func getHistory() -> [String] {
         return searchHistory
+    }
+    
+    func reloadSearchHistory() {
+        let items = SearchHistoryManager.fetch().map { $0.query }
+        searchHistory = Array(items.prefix(10))
     }
     
     // MARK: - Filtering

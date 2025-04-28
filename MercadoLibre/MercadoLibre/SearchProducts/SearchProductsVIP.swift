@@ -10,8 +10,8 @@ protocol SearchProductsViewProtocol: AnyObject {
     func showLoader()
     func hideLoader()
     func showError()
-    func displayData(products: [ProductView])
-    func showEmptyState(showClearButton: Bool) 
+    func displayData(products: [ProductListItemViewModel]) 
+    func showEmptyState(showClearButton: Bool)
 }
 
 protocol SearchProductsInteractorProtocol {
@@ -24,13 +24,14 @@ protocol SearchProductsInteractorProtocol {
     func extractAvailableFilters(
         from products: [ProductListItemViewModel]
     ) -> (brands: [String], models: [String], colors: [String])
+    func reloadSearchHistory() 
 }
 
 protocol SearchProductsPresenterProtocol {
     func showLoader()
     func hideLoader()
     func showError()
-    func displayData(products: [ProductView])
+    func displayData(products: [ProductListItemViewModel])
 }
 
 protocol SearchProductsRouterProtocol {

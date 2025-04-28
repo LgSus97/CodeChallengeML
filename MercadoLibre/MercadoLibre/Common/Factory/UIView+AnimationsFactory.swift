@@ -74,21 +74,18 @@ extension UIView {
 }
 
 
-extension UITableView {
-    
-    /// Aplica una animación de entrada en cascada a todas las celdas visibles.
-    func animateVisibleCells(
-        duration: TimeInterval = 0.6,
-        delay: TimeInterval = 0.05,
-        damping: CGFloat = 0.7,
-        initialVelocity: CGFloat = 0.7
-    ) {
-        let cells = visibleCells
-        let tableHeight = bounds.size.height
+private extension UIView {
 
-        for (index, cell) in cells.enumerated() {
-            cell.transform = CGAffineTransform(translationX: -bounds.width, y: 0)
-            cell.alpha = 0
+    static func animateCascade(
+        views: [UIView],
+        duration: TimeInterval,
+        delay: TimeInterval,
+        damping: CGFloat,
+        initialVelocity: CGFloat
+    ) {
+        for (index, view) in views.enumerated() {
+            view.transform = CGAffineTransform(translationX: -view.bounds.width, y: 0)
+            view.alpha = 0
             
             UIView.animate(
                 withDuration: duration,
@@ -97,10 +94,46 @@ extension UITableView {
                 initialSpringVelocity: initialVelocity,
                 options: [.curveEaseOut],
                 animations: {
-                    cell.transform = .identity
-                    cell.alpha = 1
+                    view.transform = .identity
+                    view.alpha = 1
                 }
             )
         }
+    }
+}
+
+extension UITableView {
+
+    func animateVisibleCells(
+        duration: TimeInterval = 0.6,
+        delay: TimeInterval = 0.05,
+        damping: CGFloat = 0.7,
+        initialVelocity: CGFloat = 0.7
+    ) {
+        UIView.animateCascade(
+            views: visibleCells,
+            duration: duration,
+            delay: delay,
+            damping: damping,
+            initialVelocity: initialVelocity
+        )
+    }
+}
+
+extension UICollectionView {
+
+    func animateVisibleCells(
+        duration: TimeInterval = 0.6,
+        delay: TimeInterval = 0.05,
+        damping: CGFloat = 0.7,
+        initialVelocity: CGFloat = 0.7
+    ) {
+        UIView.animateCascade(
+            views: visibleCells,
+            duration: duration,
+            delay: delay,
+            damping: damping,
+            initialVelocity: initialVelocity
+        )
     }
 }

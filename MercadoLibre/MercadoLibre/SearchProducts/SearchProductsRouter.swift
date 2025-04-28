@@ -14,7 +14,7 @@ final class SearchProductsRouter {
     
     /// Builds the Search Products module and returns the configured view controller.
     private func buildSearchProductsViewController() -> UIViewController {
-        let view = SearchProductsViewController(wireframe: self)
+        let view = SearchProductsViewController()
         let presenter = SearchProductsPresenter(view: view)
         let interactor = SearchProductsInteractor(presenter: presenter)
         view.interactor = interactor

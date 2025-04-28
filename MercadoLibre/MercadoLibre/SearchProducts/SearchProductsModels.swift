@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import UIKit
+import RealmSwift
 
 /// Models used to decode the search products API response from Mercado Libre.
 struct SearchProductsModels: Codable {
@@ -71,42 +73,45 @@ enum SearchState {
 /// This model abstracts only the necessary information needed for displaying
 /// the product in a table or collection view.
 public struct ProductListItemViewModel {
-    
-    /// The unique identifier of the product.
-    let id: String
-    
-    /// The product name or title.
-    let name: String
-    
-    /// The URL of the product's main image.
-    let imageUrl: URL?
-    
-    let brand: String?
-    let model: String?
-    let color: String?
+    var id: String
+    var name: String
+    var imageUrl: URL?
+    var brand: String?
+    var model: String?
+    var color: String?
+    var badges: [ProductBadge]
+    var isFavorite: Bool = false
+}
+
+
+enum ProductBadge: String, PersistableEnum {
+    case freeShipping
+    case limitedStock
+    case internationalShipping
 }
 
 extension SearchProductsModels.Response.Product {
-    
-    func toViewModel() -> ProductView? {
+    func toViewModel() -> ProductListItemViewModel? {
         guard let id = id, let name = name else { return nil }
         
         let imageUrl = pictures?.first?.url.flatMap { URL(string: $0) }
-       
         
-        return .init(
-            data: ProductListItemViewModel(
-                id: id,
-                name: name,
-                imageUrl: imageUrl,
-                brand: brandName(),
-                model: modelName(),
-                color: colorName()
-            )
+        var randomBadges: [ProductBadge] = []
+        if Bool.random() { randomBadges.append(.freeShipping) }
+        if Bool.random() { randomBadges.append(.limitedStock) }
+        if Bool.random() { randomBadges.append(.internationalShipping) }
+        
+        return ProductListItemViewModel(
+            id: id,
+            name: name,
+            imageUrl: imageUrl,
+            brand: brandName(),
+            model: modelName(),
+            color: colorName(),
+            badges: randomBadges
         )
     }
 }
-
 
 extension SearchProductsModels.Response.Product {
     

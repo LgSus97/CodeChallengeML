@@ -5,6 +5,7 @@
 //  Created by Jesus Loaiza Herrera on 26/04/25.
 //
 
+import Foundation
 import RealmSwift
 
 final class SearchHistoryManager {
@@ -13,25 +14,28 @@ final class SearchHistoryManager {
     private static let maxItems = 10
 
     static func save(query: String, id: String? = nil) {
-        let item = SearchHistoryItem(query: query, id: id)
-        
         try! realm.write {
-            realm.add(item, update: .modified)
-            
-            // Limitar a 10
+            if let existing = realm.objects(SearchHistoryItem.self).filter("query == %@", query).first {
+                existing.createdAt = Date()
+            } else {
+                let item = SearchHistoryItem(query: query, id: id)
+                realm.add(item)
+            }
+
             let allItems = realm.objects(SearchHistoryItem.self)
-                .sorted(byKeyPath: "query", ascending: true)
+                .sorted(byKeyPath: "createdAt", ascending: false)
 
             if allItems.count > maxItems {
-                let itemsToDelete = allItems.prefix(allItems.count - maxItems)
+                let itemsToDelete = allItems.suffix(from: maxItems)
                 realm.delete(itemsToDelete)
             }
         }
     }
 
+
     static func fetch() -> [SearchHistoryItem] {
         let items = realm.objects(SearchHistoryItem.self)
-            .sorted(byKeyPath: "query", ascending: true)
+            .sorted(byKeyPath: "createdAt", ascending: false)
         return Array(items)
     }
 
